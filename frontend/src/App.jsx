@@ -2,6 +2,8 @@
 import React from 'react';
 import Header from './components/layout/Header';
 import FileUploader from './components/FileUploader';
+import UploadedFiles from './components/UploadedFiles';
+// import Body from './components/layout/Body';
 import './App.css';
 
 /**
@@ -26,6 +28,8 @@ function App() {
     setUploadedFiles(files);
   };
 
+  console.log(uploadedFiles, setUploadedFiles);
+
   /**
    * JSX - JavaScript XML
    * - Parece HTML, mas é JavaScript
@@ -41,9 +45,9 @@ function App() {
       <FileUploader onUpload={handleFileUpload} />
 
       {/* Área para mostrar arquivos uploadados */}
-      <div className="uploaded-files">
-        <h3>Arquivos Carregados:</h3>
-      </div>
+      <UploadedFiles files={uploadedFiles} />
+
+      <Body />
     </div>
   );
 }
