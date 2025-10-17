@@ -1,53 +1,52 @@
-import { useState } from 'react';
+// Importações no React - SEMPRE no topo do arquivo
+import React from 'react';
 import Header from './components/layout/Header';
 import FileUploader from './components/FileUploader';
 import './App.css';
-// import reactLogo from './assets/react.svg';
-// import viteLogo from '/vite.svg';
 
+/**
+ * COMPONENTE PRINCIPAL DA APLICAÇÃO
+ *
+ * O que é um componente?
+ * - É uma função JavaScript que retorna JSX (HTML + JavaScript)
+ * - Começa com letra MAIÚSCULA
+ * - Pode receber "props" (propriedades)
+ * - É reutilizável
+ */
 function App() {
-  const [uploadedFiles, setUploadedFiles] = useState([]);
+  // Estado da aplicação - dados que podem mudar
+  const [uploadedFiles, setUploadedFiles] = React.useState([]);
 
-  //função apra lidar com upload de arquivos
+  /**
+   * Função para lidar com upload de arquivos
+   * @param {Array} files - Lista de arquivos selecionados
+   */
   const handleFileUpload = files => {
     console.log('Arquivos recebidos:', files);
     setUploadedFiles(files);
   };
 
+  /**
+   * JSX - JavaScript XML
+   * - Parece HTML, mas é JavaScript
+   * - Usa className em vez de class
+   * - Pode inserir JavaScript com { }
+   */
   return (
     <div className="app">
-      <h2>Hello World</h2>
-      <Header title="Sistema de Verficação de duplicatas" />
+      {/* Componente Header - observe como usamos como tag HTML */}
+      <Header title="Sistema de Verificação de Duplicatas" />
+
+      {/* Componente FileUpload com propriedade onUpload */}
       <FileUploader onUpload={handleFileUpload} />
-      {/*Area de upload de arquivos*/}
+
+      {/* Área para mostrar arquivos uploadados */}
       <div className="uploaded-files">
-        <h3>Arquivos Carregados</h3>
-        {uploadedFiles.length === 0 ? (
-          <p>Nenhum arquivo carregado ainda</p>
-        ) : (
-          <ul>
-            {uploadedFiles.map((file, index) => (
-              <li key={index}> {file.name} </li>
-            ))}
-          </ul>
-        )}
+        <h3>Arquivos Carregados:</h3>
       </div>
     </div>
   );
 }
 
+// Exportação padrão - permite usar em outros arquivos
 export default App;
-// import './App.css';
-
-// function App() {
-//   console.log('App está renderizando'); // Isso aparece no console?
-
-//   return (
-//     <div className="app">
-//       <h1>Sistema de Verificação de Duplicatas</h1>
-//       <p>Se você vê esta mensagem, o React está funcionando!</p>
-//     </div>
-//   );
-// }
-
-// export default App;

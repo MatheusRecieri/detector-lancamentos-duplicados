@@ -6,7 +6,7 @@ import React from 'react';
 
 function Header({ title }) {
   return (
-    <Header className="header">
+    <header className="header">
       <h1>{title}</h1>
       <nav>
         <ul>
@@ -21,7 +21,7 @@ function Header({ title }) {
           </li>
         </ul>
       </nav>
-    </Header>
+    </header>
   );
 }
 

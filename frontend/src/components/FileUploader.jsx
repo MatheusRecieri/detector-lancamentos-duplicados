@@ -28,7 +28,7 @@ function FileUploader({ onUpload }) {
 
   //manipulador de drag and drop
   const handleDragOver = event => {
-    event.prefentDefault();
+    event.preventDefault();
     setIsDragOver(true);
   };
 
@@ -58,7 +58,7 @@ function FileUploader({ onUpload }) {
           ref={fileInputRef}
           onChange={handlerFileChange}
           multiple
-          accept=".pd, .docx, .xls, xlsx, .txt"
+          accept=".pdf, .docx, .xls, xlsx, .txt"
           style={{ display: 'none' }}
         />
 
