@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+// import reactLogo from './assets/react.svg';
+// import viteLogo from '/vite.svg';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+
+  //função apra lidar com upload de arquivos
+  const handleFileUpload = files => {
+    console.log('Arquivos recebidos:', files);
+    setUploadedFiles(files);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app">
+      <Header title="Sistema de Verfica~ção de duplicatas" />
+
+      <FileUpload onUpload={handleFileUpload} />
+
+      {/*Area de upload de arquivos  */}
+      <div className="uploaded-files">
+        <h3>Arquivos Carregados</h3>
+        {uploadedFiles.length === 0 ? (
+          <p>Nenhum arquivo carregado ainda</p>
+        ) : (
+          <ul>
+            {uploadedFiles.map((file, index) => {
+              <li key={index} {file.name}></li>
+            })}
+          </ul>
+        )}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
