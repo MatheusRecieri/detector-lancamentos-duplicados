@@ -5,6 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
+import BabelPluginReactCompiler from 'babel-plugin-react-compiler';
 // import { plugin } from 'postcss';
 
 export default defineConfig([
