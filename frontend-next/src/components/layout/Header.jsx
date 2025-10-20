@@ -6,19 +6,22 @@ import React from 'react';
 
 function Header({ title }) {
   return (
-    <header className="header">
-      <h1>{title}</h1>
+    <header className="text-center mb-10">
+      <h1 className="text-3xl md:text-4xl font-bold text-white mb-6 tracking-wide drop-shadow-lg">
+        {title}
+      </h1>
       <nav>
-        <ul>
-          <li>
-            <a href="#upload">Upload</a>
-          </li>
-          <li>
-            <a href="resultados">Resultados</a>
-          </li>
-          <li>
-            <a href="sobre">Sobre</a>
-          </li>
+        <ul className="flex justify-center space-x-8">
+          {['Upload', 'Resultados', 'Sobre'].map((item, i) => (
+            <li key={i}>
+              <a
+                href={`#${item.toLowerCase()}`}
+                className="text-white/80 hover:text-[#f28c28] transition-colors duration-200 font-medium"
+              >
+                {item}
+              </a>
+            </li>
+          ))}
         </ul>
       </nav>
     </header>

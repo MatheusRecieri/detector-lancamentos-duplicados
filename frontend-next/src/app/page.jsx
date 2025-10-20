@@ -8,9 +8,9 @@ import FileUploader from '../components/FileUploader';
 import UploadedFiles from '../components/UploadedFiles';
 import Body from '../components/layout/Body';
 // css
-import '../styles/App.css';
-import '../styles/Body.css';
-import '../styles/UploadedFiles.css';
+// import '../styles/App.css';
+// import '../styles/Body.css';
+// import '../styles/UploadedFiles.css';
 
 /**
  * COMPONENTE PRINCIPAL DA APLICAÇÃO
@@ -21,7 +21,7 @@ import '../styles/UploadedFiles.css';
  * - Pode receber "props" (propriedades)
  * - É reutilizável
  */
-function App() {
+function Home() {
   // Estado da aplicação - dados que podem mudar
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [analysis, setAnalysis] = useState(null);
@@ -119,20 +119,16 @@ function App() {
    * - Pode inserir JavaScript com { }
    */
   return (
-    <div className="app">
-      {/* Componente Header - observe como usamos como tag HTML */}
-      <Header title="Sistema de Verificação de Duplicatas" />
-
-      {/* Componente FileUpload com propriedade onUpload */}
-      <FileUploader onUpload={handleFileUpload} />
-
-      {/* Área para mostrar arquivos uploadados */}
-      <UploadedFiles files={uploadedFiles} />
-
-      <Body analysis={analysis} />
-    </div>
+    <main className="py-10 px-4">
+      <div className="max-w-6xl mx-auto bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20 p-6 md:p-8">
+        <Header title="Sistema de Verificação de Duplicatas" />
+        <FileUploader onUpload={handleFileUpload} />
+        <UploadedFiles files={uploadedFiles} />
+        <Body analysis={analysis} />
+      </div>
+    </main>
   );
 }
 
 // Exportação padrão - permite usar em outros arquivos
-export default App;
+export default Home;

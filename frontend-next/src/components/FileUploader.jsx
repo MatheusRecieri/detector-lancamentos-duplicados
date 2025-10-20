@@ -14,7 +14,7 @@ function FileUploader({ onUpload }) {
 
   //manipulador de arquivo
 
-  const handlerFileChange = event => {
+  const handleFileChange = event => {
     const files = Array.from(event.target.files);
     if (files.length > 0) {
       console.log('Enviando para App');
@@ -23,19 +23,19 @@ function FileUploader({ onUpload }) {
   };
 
   //manipulador de clique no botão
-  const handleButtonClick = () => {
-    fileInputRef.current?.click();
-  };
+  // const handleButtonClick = () => {
+  //   fileInputRef.current?.click();
+  // };
 
   //manipulador de drag and drop
-  const handleDragOver = event => {
-    event.preventDefault();
-    setIsDragOver(true);
-  };
+  // const handleDragOver = event => {
+  //   event.preventDefault();
+  //   setIsDragOver(true);
+  // };
 
-  const handleDragLeave = () => {
-    setIsDragOver(false);
-  };
+  // const handleDragLeave = () => {
+  //   setIsDragOver(false);
+  // };
 
   const handleDrop = event => {
     event.preventDefault();
@@ -45,37 +45,65 @@ function FileUploader({ onUpload }) {
   };
 
   return (
-    <div className="file-upload">
-      <h2>Upload de documentos</h2>
+    <section
+      id="upload"
+      className="max-w-3xl mx-auto text-center my-10"
+      onDragOver={e => {
+        e.preventDefault();
+        setIsDragOver(true);
+      }}
+      onDragLeave={() => setIsDragOver(false)}
+      onDrop={handleDrop}
+    >
       <div
-        className={`drop-zone ${isDragOver ? 'drag-over' : ''}`}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
+        className={`p-10 rounded-2xl border-2 border-dashed transition-all duration-300 cursor-pointer ${
+          isDragOver
+            ? 'border-blue-400 bg-blue-50/40 shadow-lg'
+            : 'border-[#f28c28] bg-white/10 hover:bg-white/20'
+        }`}
+        onClick={() => fileInputRef.current?.click()}
       >
-        <p>Arraste arquivos aqui ou</p>
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handlerFileChange}
-          multiple
-          accept=".pdf, .docx, .xls, xlsx, .txt"
-          style={{ display: 'none' }}
-        />
-
+        <svg
+          className={`w-16 h-16 mx-auto ${
+            isDragOver ? 'text-blue-500' : 'text-[#f28c28]'
+          }`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+          />
+        </svg>
+        <p className="text-white/90 mt-4 mb-6 text-lg font-medium">
+          Arraste arquivos aqui ou
+        </p>
         <button
           type="button"
-          onClick={handleButtonClick}
-          className="upload-button"
+          onClick={e => {
+            e.stopPropagation();
+            fileInputRef.current?.click();
+          }}
+          className="bg-[#f28c28] hover:bg-[#f39b41] text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 focus:ring-2 focus:ring-[#f28c28] shadow-lg"
         >
-          Selecione os arquivos
+          Selecionar Arquivos
         </button>
-
-        <p className="file-types">
-          Formatos suportados: PDF, DOCX, XLS, XLS, TXT
+        <p className="text-sm text-white/70 mt-4">
+          Formatos suportados: PDF, DOCX, XLS, XLSX, TXT
         </p>
+        <input
+          ref={fileInputRef}
+          type="file"
+          multiple
+          accept=".pdf,.docx,.xls,.xlsx,.txt"
+          onChange={handleFileChange}
+          className="hidden"
+        />
       </div>
-    </div>
+    </section>
   );
 }
 
