@@ -59,7 +59,7 @@ function FileUploader({ onUpload }) {
 
       onUpload(files, response);
     } catch (error) {
-      console.error(`Erro ao procesar o arquivo ${error.message}`);
+      console.error(`Erro ao processar o arquivo ${error.message}`);
     } finally {
       setUploading(false);
     }

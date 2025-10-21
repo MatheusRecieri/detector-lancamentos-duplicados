@@ -18,28 +18,35 @@ export const fileService = {
     return await response.json();
   },
 
-  async downloadExcel(processId) {
-    const response = await fetch(
-      `${API_BASE_URL}/files/export/excel/${processId}`
-    );
+  downloadExcel(processId) {
+    return new Promise((resolve, reject) => {
+      try {
+        console.log(`🔗 Iniciando download direto para: ${processId}`);
 
-    if (!response.ok) {
-      throw new Error('Erro ao baixar arquivo Excel');
-    }
+        // Criar link temporário
+        const link = document.createElement('a');
+        link.href = `${API_BASE_URL}/files/export/excel/${processId}`;
+        link.target = '_blank'; // Abre em nova aba/guia
+        link.download = `analise-duplicatas-${processId}.xlsx`;
 
-    const blob = await response.blob();
+        // Adicionar ao DOM (necessário para alguns navegadores)
+        document.body.appendChild(link);
 
-    // Criar link para download
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.style.display = 'none';
-    a.href = url;
-    a.download = `analise-duplicatas-${processId}.xlsx`;
-    document.body.appendChild(a);
-    a.click();
-    window.URL.revokeObjectURL(url);
-    document.body.removeChild(a);
+        // Disparar o clique
+        link.click();
 
-    return blob;
+        // Remover do DOM após um tempo
+        setTimeout(() => {
+          if (link.parentNode) {
+            link.parentNode.removeChild(link);
+          }
+          console.log('✅ Download iniciado com sucesso');
+          resolve(true);
+        }, 100);
+      } catch (error) {
+        console.error('❌ Erro no download direto:', error);
+        reject(error);
+      }
+    });
   },
 };

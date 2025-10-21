@@ -1,6 +1,7 @@
 import express from "express";
 import multer from "multer";
-import { uploadAndAnalyze } from "../controllers/fileControllers.js"
+import { exportToExcel } from "../services/exportExcelService.js";
+import { exportToExcelController, uploadAndAnalyze } from "../controllers/fileControllers.js"
 
 const router = express.Router();
 const storage = multer.diskStorage({
@@ -10,5 +11,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 router.post("/upload", upload.single("file"), uploadAndAnalyze);
+router.get('/export/excel/:processId', exportToExcelController);
 
 export default router;

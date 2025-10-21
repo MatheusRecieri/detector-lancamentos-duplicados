@@ -13,35 +13,34 @@ export const useFileUpload = () => {
     try {
       console.log('Enviando arquivo:', file.name);
       const data = await fileService.uploadFile(file);
-      setResults(data);
+      setResult(data);
       return data;
     } catch (err) {
       console.error('Erro no upload:', err);
       setError(err.message);
       throw err;
     } finally {
-      setUploading(false);
+      setLoading(false);
     }
   };
 
   const downloadExcel = async processId => {
     try {
-      const blob = await fileService.downloadExcel(processId);
-
-      // Criar link para download
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.style.display = 'none';
-      a.href = url;
-      a.download = `analise-lancamentos-${processId}.xlsx`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-
+      console.log(`🎯 Solicitando download para: ${processId}`);
+      await fileService.downloadExcel(processId);
       return true;
     } catch (err) {
       console.error('Erro no download:', err);
+
+      // Mensagem mais amigável para o usuário
+      if (err.message.includes('popup') || err.message.includes('bloqueou')) {
+        alert(
+          'O navegador bloqueou a janela de download. Por favor, permita popups para este site e tente novamente.'
+        );
+      } else {
+        alert(`Não foi possível baixar o arquivo: ${err.message}`);
+      }
+
       throw err;
     }
   };
@@ -54,6 +53,7 @@ export const useFileUpload = () => {
 
   return {
     uploadFile,
+    downloadExcel,
     loading,
     error,
     result,

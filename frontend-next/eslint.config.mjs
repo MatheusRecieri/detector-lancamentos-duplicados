@@ -38,7 +38,7 @@ const eslintConfig = [
 
     rules: {
       // Regras personalizadas
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'no-unused-vars': ['error'],
       'prettier/prettier': 'error',
       'react/react-in-jsx-scope': 'off', // Next já importa React automaticamente
     },

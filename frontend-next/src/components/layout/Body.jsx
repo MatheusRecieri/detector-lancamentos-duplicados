@@ -1,7 +1,10 @@
 import React from 'react';
-import { fileService } from '../../services/api';
+// import { fileService } from '../../services/api';
+import { useFileUpload } from '@/hooks/useFileUpload';
 
 const Body = ({ analysis }) => {
+  const { downloadExcel } = useFileUpload();
+
   if (!analysis) {
     return (
       <div className="text-center py-8">
@@ -18,11 +21,21 @@ const Body = ({ analysis }) => {
       return;
     }
 
+    console.log('🎯 Iniciando download para processId:', analysis.processId);
+
     try {
-      await fileService.downloadExcel(analysis.processId);
+      await downloadExcel(analysis.processId);
+      console.log('✅ Download iniciado com sucesso');
     } catch (error) {
-      console.error('Erro no download:', error);
+      console.error('❌ Erro no download:', error);
       alert('Erro ao baixar relatório: ' + error.message);
+
+      // ✅ LINK ALTERNATIVO DIRETO
+      const downloadUrl = `http://localhost:4000/api/files/export/excel/${analysis.processId}`;
+      console.log('🔗 URL de download direto:', downloadUrl);
+
+      // Tentar abrir em nova janela
+      window.open(downloadUrl, '_blank');
     }
   };
 

@@ -1,8 +1,8 @@
 export function analyzeDuplicates(data) {
   // Exemplo simples — você pode adaptar conforme o formato real do arquivo
-  const notas = [];
-  const duplicatas = [];
-  const possiveis = [];
+  // const notas = [];
+  // const duplicatas = [];
+  // const possiveis = [];
 
   data.forEach((item) => {
     const match = notas.find(
