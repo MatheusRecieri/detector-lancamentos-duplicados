@@ -13,30 +13,51 @@ function UploadedFiles({ files }) {
   }
 
   return (
-    <div className="mt-8 bg-white/10 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-white/20">
-      <h3 className="text-2xl font-semibold text-white mb-4 text-center">
-        Arquivos Enviados
+    <div className="mt-6 p-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10">
+      <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
+        <svg
+          className="w-5 h-5 mr-2 text-[#f28c28]"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          />
+        </svg>
+        Arquivo(s) Carregado(s)
       </h3>
-      <ul className="space-y-3">
-        {files.map((file, i) => (
-          <li
-            key={i}
-            className="flex justify-between items-center bg-white/20 border border-white/30 rounded-xl p-4 hover:bg-[#f28c28]/10 transition"
+      <div className="space-y-2">
+        {files.map((file, index) => (
+          <div
+            key={index}
+            className="flex items-center justify-between p-3 bg-white/5 rounded-lg"
           >
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-[#f28c28]/20 rounded-lg flex items-center justify-center">
-                <span className="text-[#f28c28] font-bold text-sm">
-                  {file.name.split('.').pop()?.toUpperCase()}
-                </span>
-              </div>
-              <span className="font-medium text-white">{file.name}</span>
+            <div className="flex items-center">
+              <svg
+                className="w-4 h-4 text-[#f28c28] mr-3"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+              <span className="text-white/90 font-medium">{file.name}</span>
             </div>
-            <span className="text-sm text-white/70">
-              {(file.size / 1024).toFixed(1)} KB
+            <span className="text-white/60 text-sm">
+              {(file.size / 1024 / 1024).toFixed(2)} MB
             </span>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

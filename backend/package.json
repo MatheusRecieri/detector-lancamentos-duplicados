@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/app.js",
-    "start": "node src/app.js"
+    "start": "node src/app.js",
+    "dev:full": "cd ../frontend-next && npm run buil && cd ../backend && node app.js"
   },
   "keywords": [],
   "author": "",
