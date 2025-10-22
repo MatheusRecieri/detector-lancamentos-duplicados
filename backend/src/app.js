@@ -21,7 +21,7 @@ app.use("/uploads", express.static(path.resolve("uploads")));
 
 // Middleware de log ANTES das rotas
 app.use((req, res, next) => {
-  console.log(`📨 ${req.method} ${req.path}`);
+  // console.log(`📨 ${req.method} ${req.path}`);
   next();
 });
 

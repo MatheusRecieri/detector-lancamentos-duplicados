@@ -1,5 +1,5 @@
 import { readFileContent } from "../services/fileReaderService.js";
-import { analyzeDuplicates, debugData } from "../services/analysisService.js";
+import { analyzeDuplicates } from "../services/analysisService.js";
 import { exportToExcel } from "../services/exportExcelService.js";
 import path from "path";
 
@@ -105,7 +105,7 @@ export const exportToExcelController = async (req, res) => {
   try {
     const { processId } = req.params;
 
-    console.log(`📥 Download solicitado para processId: ${processId}`);
+    // console.log(`📥 Download solicitado para processId: ${processId}`);
 
     if (!processId) {
       return res.status(400).json({
