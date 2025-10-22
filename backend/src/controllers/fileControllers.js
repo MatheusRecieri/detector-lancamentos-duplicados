@@ -1,5 +1,5 @@
 import { readFileContent } from "../services/fileReaderService.js";
-import { analyzeDuplicates } from "../services/analysisService.js";
+import { analyzeDuplicates, formatarResultadosParaExportacao } from "../services/analysisService.js";
 import { exportToExcel } from "../services/exportExcelService.js";
 import path from "path";
 
@@ -21,21 +21,9 @@ export const uploadAndAnalyze = async (req, res) => {
     const structuredData = await readFileContent(req.file.path, req.file.mimetype);
 
     // Análise real
-    const analysisResult = analyzeDuplicates(structuredData, { debug: true });
+    const analysisResult = analyzeDuplicates(structuredData);
 
     const processId = Date.now().toString();
-
-    // CORREÇÃO: Criar a propriedade duplicates que estava faltando
-    const duplicatesArray = analysisResult.duplicatas.map((dup, index) => ({
-      id: index + 1,
-      codigoFornecedor: dup.codigoFornecedor,
-      fornecedor: dup.fornecedor,
-      data: dup.data,
-      notaSerie: dup.notaSerie,
-      valorContabil: dup.valorContabil,
-      valor: dup.valor,
-      chaveDuplicata: dup.chaveDuplicata
-    }));
 
     const formattedResult = {
       success: true,
@@ -43,8 +31,20 @@ export const uploadAndAnalyze = async (req, res) => {
       filename: req.file.originalname,
       totalEntries: analysisResult.summary.totalItensProcessados,
       validEntries: analysisResult.summary.itensValidos,
-      // CORREÇÃO: Adicionar a propriedade duplicates que estava faltando
-      duplicates: duplicatesArray,
+      duplicates: analysisResult.duplicatas.map((dup, index) => ({
+        id: index + 1,
+        codigoFornecedor: dup.codigoFornecedor,
+        fornecedor: dup.fornecedor,
+        data: dup.data,
+        notaSerie: dup.notaSerie,
+        valorContabil: dup.valorContabil,
+        valor: dup.valor,
+        tipo: dup.tipo,
+        motivo: dup.motivo,
+        ocorrencias: dup.ocorrencias,
+        chaveDuplicata: dup.chaveDuplicata,
+        detalhes: dup.detalhes
+      })),
       possibleDuplicates: analysisResult.possiveisDuplicatas.map((dup, index) => ({
         id: index + 1,
         codigoFornecedor: dup.codigoFornecedor,
@@ -53,38 +53,36 @@ export const uploadAndAnalyze = async (req, res) => {
         notaSerie: dup.notaSerie,
         valorContabil: dup.valorContabil,
         valor: dup.valor,
-        chaveDuplicata: dup.chaveSimplificada,
-        diferencaDias: dup.diferencaDias,
-        notaSimilar: dup.itemSimilar?.notaSerie,
-        dataSimilar: dup.itemSimilar?.data
+        tipo: dup.tipo,
+        motivo: dup.motivo,
+        ocorrencias: dup.ocorrencias,
+        chaveDuplicata: dup.chaveDuplicata,
+        detalhes: dup.detalhes
       })),
       allEntries: analysisResult.notasUnicas.map((item, index) => ({
         id: index + 1,
-        // CORREÇÃO: Consertar os nomes das propriedades
         codigoFornecedor: item.codigoFornecedor,
         fornecedor: item.fornecedor,
         data: item.data,
         notaSerie: item.notaSerie,
         valorContabil: item.valorContabil,
         valor: item.valor,
-        status: analysisResult.duplicatas.some(dup =>
-          dup.codigoFornecedor === item.codigoFornecedor &&
-          dup.notaSerie === item.notaSerie
-        ) ? 'Duplicata' : 'Normal'
+        status: 'Normal'
       })),
       summary: analysisResult.summary,
-      message: `Análise concluída: ${analysisResult.summary.duplicatasExatas} duplicatas exatas e ${analysisResult.summary.possiveisDuplicatas} possíveis duplicatas encontradas`
+      // analiseDetalhada: formatarResultadosParaExportacao(analysisResult).analiseDetalhada,
+      message: `Análise concluída: ${analysisResult.summary.duplicatasExatas} duplicatas reais e ${analysisResult.summary.possiveisDuplicatas} possíveis duplicatas encontradas`
     };
 
     // CORREÇÃO: Usar rawAnalysis em vez de ranAnalysis
     analysisStorage.set(processId, {
       ...formattedResult,
-      rawAnalysis: analysisResult
+      rawAnalysis: analysisResult,
+      exportData: formatarResultadosParaExportacao(analysisResult)
     });
 
     console.log('Análise concluída:', {
       totalItens: formattedResult.totalEntries,
-      // CORREÇÃO: Usar duplicates que agora existe
       duplicatas: formattedResult.duplicates.length,
       possiveis: formattedResult.possibleDuplicates.length
     });
