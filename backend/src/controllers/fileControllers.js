@@ -21,7 +21,7 @@ export const uploadAndAnalyze = async (req, res) => {
     const structuredData = await readFileContent(req.file.path, req.file.mimetype);
 
     // Análise real
-    const analysisResult = analyzeDuplicates(structuredData);
+    const analysisResult = analyzeDuplicates(structuredData, { debug: true });
 
     const processId = Date.now().toString();
 
