@@ -7,10 +7,10 @@ import path from "path";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.FRONTEND_URL || "*";
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: PORT,
   credentials: true
 }));
 
@@ -20,18 +20,18 @@ app.use(express.json());
 app.use("/uploads", express.static(path.resolve("uploads")));
 
 // Middleware de log ANTES das rotas
-app.use((req, res, next) => {
-  // console.log(`📨 ${req.method} ${req.path}`);
-  next();
-});
+// app.use((req, res, next) => {
+//   // console.log(`📨 ${req.method} ${req.path}`);
+//   next();
+// });
 
 // Rotas principais
 app.use("/api/files", fileRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Servidor ativo e pronto!");
-});
+// app.get("/", (req, res) => {
+//   res.send("Servidor ativo e pronto!");
+// });
 
 app.listen(PORT, () => {
-    console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
+  console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
 });
