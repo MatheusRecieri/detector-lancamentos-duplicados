@@ -41,11 +41,18 @@ const eslintConfig = [
       'no-unused-vars': ['error'],
       'prettier/prettier': 'error',
       'react/react-in-jsx-scope': 'off', // Next já importa React automaticamente
+      '@next/next/no-page-custom-font': 'off'
     },
+    globalIgnores([
+      '.next/**',
+    'out/',
+    'build/***',
+    'next-env.d.ts'
+    ])
 
-    settings: {
-      react: { version: 'detect' },
-    },
+  settings: {
+    react: { version: 'detect' },
+  },
   },
 ];
 

@@ -1,26 +1,17 @@
 {
   "name": "detector-lancamentos-duplicados",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "type": "module",
   "scripts": {
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend-next && npm run dev\"",
     "build": "cd frontend-next && npm run build",
     "start": "cd backend && npm run dev",
-    "install:all": "cd backend && npm install && cd ../frontend-next && npm install"
+    "install:all": "npm run install:backend && npm run install:frontend",
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend-next && npm install"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MatheusRecieri/detector-lancamentos-duplicados.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/MatheusRecieri/detector-lancamentos-duplicados/issues"
-  },
-  "homepage": "https://github.com/MatheusRecieri/detector-lancamentos-duplicados#readme",
-  "devDependencies": {
+  "dependencies": {
     "concurrently": "^9.2.1"
   }
 }
